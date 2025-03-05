@@ -31,13 +31,18 @@ function App() {
 
   useEffect(() => {
     console.log("Checking authentication status...");
-    dispatch(checkAuth()).then((result) => {
-      console.log("Authentication check result:", result);
-      if (result.payload.isAuthenticated) {
-        console.log("User is authenticated, fetching todos...");
-        dispatch(fetchTodos());
-      }
-    });
+    dispatch(checkAuth())
+      .then((result) => {
+        if (result.payload && result.payload.isAuthenticated) {
+          console.log("User is authenticated, fetching todos...");
+          dispatch(fetchTodos());
+        } else {
+          console.log("User is not authenticated");
+        }
+      })
+      .catch((error) => {
+        console.error("Error checking authentication status:", error);
+      });
   }, [dispatch]);
 
   const handleAddTodo = async (e) => {
