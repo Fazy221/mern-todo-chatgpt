@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { updateTitle } from "./store/todosSlice";
+import { updateTitle, editTodo } from "./store/todosSlice";
 
 const TodoItem = ({
   todo,
@@ -11,14 +11,16 @@ const TodoItem = ({
 }) => {
   const dispatch = useDispatch();
 
+  const handleCheckboxChange = (e) => {
+    handleUpdateTodo(todo.id, todo.title, e.target.checked);
+  };
+
   return (
     <li className="list__item">
       <input
         type="checkbox"
         checked={todo.completed}
-        onChange={(e) =>
-          handleUpdateTodo(todo.id, todo.title, e.target.checked)
-        }
+        onChange={handleCheckboxChange}
       />
       {todo.isEditing ? (
         <>
